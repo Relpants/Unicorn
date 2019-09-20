@@ -4,9 +4,9 @@
 #include <sys/stat.h>
 #include <time.h>
 #include <stdlib.h>
-#include <hacking.h>
+#include "hacking.h"
 
-#define DATAFILE "Desktop/game.txt";
+#define DATAFILE "game.txt"
 
 struct user {
 	int uid;
@@ -14,7 +14,7 @@ struct user {
 	int highscore;
 	char name[100];
 	int (*current_game)();
-}
+};
 
 int get_player_data();
 void register_new_player();
@@ -50,12 +50,12 @@ int main(){
 		printf("6 - Reset your account at 100 credits\n");
 		printf("7 - Quit\n");
 		printf("{Name: %s]\n",player.name);
-		printf("%d", &choice);
+		scanf("%d", &choice);
 		
 		if((choice < 1) || (choice > 7))
 			printf("\n[!!] The number %d is an invalid selection.\n\n",choice);
 		else if(choice < 4){
-			if(choice != last_game {
+			if(choice != last_game) {
 					if(choice == 1)
 						player.current_game = pick_a_number;
 					else if(choice == 2)
@@ -130,7 +130,7 @@ void update_player_data() {
 	int fd, i, read_uid;
 	char burned_byte;
 
-	fd = open(DATAFILE< O_RDWR);
+	fd = open(DATAFILE, O_RDWR);
 	if(fd == -1)
 		fatal("in update_player_data() while opening file");
 	read(fd, &read_uid, 4);
@@ -152,7 +152,7 @@ void show_highscore(){
 	int fd;
 
 	printf("\n-----------------------| HIGH SCORE |------------------------\n");
-	fd = open(DATAFILE, O_RDONLY):
+	fd = open(DATAFILE, O_RDONLY);
 	if(fd == -1)
 		fatal("in show_highscore() while opening file");
 	while(read(fd, &entry, sizeof(struct user)) > 0){
@@ -166,7 +166,7 @@ void show_highscore(){
 		printf("%s has the high score of %u\n", top_name, top_score);
 	else
 		printf("You currently have the high score of %u credits!\n", player.highscore);
-	printf("====================================================\n\n");
+	printf("============================================================\n\n");
 }
 
 void jackpot() {
@@ -204,7 +204,7 @@ void print_cards(char *message, char *cards, int user_pick) {
 	}
 }
 
-int take_wager(int available_credits int previous_wager) {
+int take_wager(int available_credits, int previous_wager) {
 	int wager, total_wager;
 
 	printf("How many of your %d credits would you like to wager? ", available_credits);
@@ -316,7 +316,7 @@ int dealer_no_match(){
 int find_the_ace(){
 	int i, ace, total_wager;
 	int invalid_choice, pick = -1, wager_one = -1, wager_two = -1;
-	char choice_two, cards[3] == {'X', 'X', 'X'};
+	char choice_two, cards[3] = {'X', 'X', 'X'};
 
 	ace = rand()%3;
 
@@ -333,7 +333,7 @@ int find_the_ace(){
 		return -1;
 	}
 
-	while(wager_one == -1){
+	while(wager_one == -1)
 		wager_one = take_wager(player.credits, 0);
 
 	print_cards("Dealing cards", cards, -1);
@@ -380,7 +380,7 @@ int find_the_ace(){
 
 	if(pick == ace){
 		printf("You have won %d credits from your first wager\n", wager_one);
-		player.credits += wager_one
+		player.credits += wager_one;
 		if(wager_two != -1){
 			printf("and an additional %d credits from your second wager\n", wager_two);
 			player.credits += wager_two;
